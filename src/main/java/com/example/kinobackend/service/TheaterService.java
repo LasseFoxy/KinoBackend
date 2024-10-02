@@ -15,12 +15,12 @@ public class TheaterService {
     @Autowired
     private ITheaterRepository theaterRepository;
 
-    // Opret ny biografsal
+
     public Theater saveTheater(Theater theater) {
         return theaterRepository.save(theater);
     }
 
-    // Opdater eksisterende biografsal
+
     public Theater updateTheater(int id, Theater theaterDetails) {
         Optional<Theater> optionalTheater = theaterRepository.findById(id);
 
