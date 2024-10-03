@@ -12,19 +12,19 @@ import java.util.List;
 public class ShowtimeController {
 
     @Autowired
-    private IShowtimeRepository showtimeRepository;
+    private ShowtimeService showtimeService;
 //    @Autowired
-//    private MovieRepository movieRepository;
+//    private MovieService movieService;
 //
 //    @GetMapping("/movie/{movieId}")
 //    public List<Showtime> getShowtimesByMovie(@PathVariable Long movieId) {
-//        Movie movie = movieRepository.findById(movieId).orElse(null);
-//        return showtimeRepository.findByMovie(movie);
+//        Movie movie = movieService.findById(movieId).orElse(null);
+//        return showtimeService.findByMovie(movie);
 //    }
 
     @GetMapping
     public List<Showtime> getAllShowtimes() {
-        return showtimeRepository.findAll();
+        return showtimeService.findAll();
     }
 }
 

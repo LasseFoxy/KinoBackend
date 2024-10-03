@@ -51,6 +51,15 @@ public class OrderService {
     public List <Order> findOrderFromShowtimeId(Long showtimeId) {
            return orderRepository.findByShowtime_ShowtimeId(showtimeId);
     }
+
+    public Order findOrderWithTickets(Long orderId) {
+            return orderRepository.findOrderWithTickets(orderId);
+    }
+
+    public List<Order> findAll() {
+            return orderRepository.findAll();
+        }
+
 }
 
 

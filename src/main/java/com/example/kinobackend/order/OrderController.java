@@ -22,12 +22,12 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public Order getOrderWithTickets(@PathVariable Long orderId) {
-       return orderRepository.findOrderWithTickets(orderId);
+       return orderService.findOrderWithTickets(orderId);
    }
 
     @GetMapping
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return orderService.findAll();
     }
 
     @GetMapping("/showtimes/{showtimeId}")

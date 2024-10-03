@@ -9,15 +9,15 @@ import java.util.List;
 public class TicketController {
 
     @Autowired
-    private ITicketRepository ticketRepository;
+    private TicketService ticketService;
 
     @GetMapping
     public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
+        return ticketService.findAll();
     }
 
     @PostMapping("/book")
     public Ticket bookTicket(@RequestBody Ticket ticket) {
-        return ticketRepository.save(ticket);
+        return ticketService.bookTicket(ticket);
     }
 }
