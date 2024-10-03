@@ -17,7 +17,7 @@ public class Theater {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int theater_id;
+    private int theaterId;
 
     /*@OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();*/
@@ -27,8 +27,8 @@ public class Theater {
     private String name;
 
     @Column(nullable = false)
-    private int number_of_rows;
+    private int numberOfRows;
 
     @Column(nullable = false)
-    private int seats_per_row;
+    private int seatsPerRow;
 }

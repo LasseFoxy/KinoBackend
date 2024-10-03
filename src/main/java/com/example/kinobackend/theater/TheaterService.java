@@ -32,8 +32,8 @@ public class TheaterService {
         if (optionalTheater.isPresent()) {
             Theater existingTheater = optionalTheater.get();
             existingTheater.setName(theaterDetails.getName());
-            existingTheater.setNumber_of_rows(theaterDetails.getNumber_of_rows());
-            existingTheater.setSeats_per_row(theaterDetails.getSeats_per_row());
+            existingTheater.setNumberOfRows(theaterDetails.getNumberOfRows());
+            existingTheater.setSeatsPerRow(theaterDetails.getSeatsPerRow());
 
             return theaterRepository.save(existingTheater);
         } else {
