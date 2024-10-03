@@ -1,7 +1,5 @@
 package com.example.kinobackend.Seat;
-
-
-import com.example.kinobackend.model.Theater;
+import com.example.kinobackend.theater.Theater;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,7 +22,7 @@ public class Seat {
     private int seatNumber;
 
     @ManyToOne
-    @JoinColumn(name = "theatre_id")
+    @JoinColumn(name = "theater_id")
     @JsonBackReference
     private Theater theater;
 

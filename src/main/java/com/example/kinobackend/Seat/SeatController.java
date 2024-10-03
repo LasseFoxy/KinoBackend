@@ -13,9 +13,9 @@ public class SeatController {
     private SeatRepository seatRepository;
 
 
-    @GetMapping("/theatre/{theatreId}")
-    public List<Seat> getSeatsByTheatre(@PathVariable Long theatreId) {
-        return seatRepository.findByTheatre_TheatreId(theatreId);
+    @GetMapping("/theater/{theaterId}")
+    public List<Seat> getSeatsByTheatre(@PathVariable Long theaterId) {
+        return seatRepository.findByTheater_TheaterId(theaterId);
     }
 
     @GetMapping("/byIds")

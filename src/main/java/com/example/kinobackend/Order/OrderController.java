@@ -15,7 +15,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public Order createOrder(@RequestBody OrderRequest orderRequest) {
+    public Order createOrder(@RequestBody OrderDTO orderRequest) {
         System.out.println("Received OrderRequest: " + orderRequest);
         return orderService.createOrder(orderRequest);
     }

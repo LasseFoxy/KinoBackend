@@ -28,7 +28,7 @@ public class OrderService {
         private SeatRepository seatRepository;
 
         @Transactional
-        public Order createOrder(OrderRequest orderRequest) {
+        public Order createOrder(OrderDTO orderRequest) {
             Order order = new Order();
             order.setCustomerName(orderRequest.getCustomerName());
             order.setOrderTime(new Date());
