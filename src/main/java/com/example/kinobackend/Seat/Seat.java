@@ -26,9 +26,4 @@ public class Seat {
     @JsonBackReference
     private Theater theater;
 
-    public Seat(char seatRow, int seatNumber, Theater theater) {
-        this.seatRow = seatRow;
-        this.seatNumber = seatNumber;
-        this.theater = theater;
-    }
 }
