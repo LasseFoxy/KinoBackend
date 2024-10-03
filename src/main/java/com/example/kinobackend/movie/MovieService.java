@@ -1,7 +1,7 @@
-package com.example.kinobackend.service;
+package com.example.kinobackend.movie;
 
-import com.example.kinobackend.model.Movie;
-import com.example.kinobackend.repository.MovieRepository;
+import com.example.kinobackend.movie.Movie;
+import com.example.kinobackend.movie.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

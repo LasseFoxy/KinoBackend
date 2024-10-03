@@ -1,9 +1,5 @@
-package com.example.kinobackend.controller;
+package com.example.kinobackend.movie;
 
-import com.example.kinobackend.model.Movie;
-import com.example.kinobackend.repository.MovieRepository;
-import com.example.kinobackend.service.ImageService;
-import com.example.kinobackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +11,23 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/api/v1/movie")
 @CrossOrigin
 public class MovieController {
-
 
     @Autowired
     private MovieService movieService;
     @Autowired
     private ImageService imageService;
 
-
+    // Get all movies
     @GetMapping()
     public ResponseEntity<List<Movie>> findAll() {
         List<Movie> movies = movieService.findAllMovies();
         return ResponseEntity.ok().body(movies);
     }
 
+    // Get movie by ID
     @GetMapping("/{id}")
     public ResponseEntity<Movie> findById(@PathVariable int id) {
         Optional<Movie> movie = movieService.findMovieById(id);
@@ -42,13 +38,21 @@ public class MovieController {
         }
     }
 
+    // Create a new movie in database
     @PostMapping("/")
     public ResponseEntity<Movie> create(@RequestBody Movie movie) {
         Movie createdMovie = movieService.createMovie(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
-
     }
 
+    // Update movie by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie updatedMovie) {
+        Optional<Movie> updated = movieService.updateMovie(id, updatedMovie);
+        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Delete movie by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMovie(@PathVariable int id) {
         if (movieService.deleteMovie(id)) {
@@ -58,26 +62,25 @@ public class MovieController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie updatedMovie) {
-        Optional<Movie> updated = movieService.updateMovie(id, updatedMovie);
-        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
-    }
-
-    // Endpoint til at uploade et billede
+    // Upload image for a movie
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
+        // Validate file type
+        String contentType = image.getContentType();
+        if (!contentType.startsWith("image/")) {
+            return ResponseEntity.badRequest().body("File must be an image");
+        }
+
+        // Validate file size (max 5MB)
+        if (image.getSize() > 5 * 1024 * 1024) {  // 5MB
+            return ResponseEntity.badRequest().body("File size exceeds 5MB");
+        }
+
         try {
-            // Gem billede til serveren, database, eller cloud
-            byte[] imageBytes = image.getBytes();
-
-            // Her kan du gemme billedet i filsystemet eller database
-            // Eksempel: movieService.saveImage(imageBytes);
-
-            return ResponseEntity.ok("Image uploaded successfully!");
+            imageService.saveImage(image);
+            return ResponseEntity.ok("Image uploaded successfully");
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Failed to upload image: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.kinobackend.controller;
+package com.example.kinobackend.movie;
 
 
 import jakarta.persistence.*;

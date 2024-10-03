@@ -1,6 +1,6 @@
-package com.example.kinobackend.repository;
+package com.example.kinobackend.movie;
 
-import com.example.kinobackend.model.Movie;
+import com.example.kinobackend.movie.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

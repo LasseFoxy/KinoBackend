@@ -1,6 +1,5 @@
-package com.example.kinobackend.model;
+package com.example.kinobackend.movie;
 
-import com.example.kinobackend.controller.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
