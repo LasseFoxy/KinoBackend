@@ -11,14 +11,11 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/theater")
+@RequestMapping("/api/theater")
 public class TheaterController {
 
     @Autowired
     private TheaterService theaterService;
-    @Autowired
-    private SeatService seatService;
-
 
     @GetMapping
     public List<Theater> getAllTheaters() {
@@ -41,12 +38,13 @@ public class TheaterController {
 
     @GetMapping("/{theaterId}")
     public ResponseEntity<List<Seat>> getSeatsByTheater(@PathVariable("theaterId") int theaterId) {
-        List<Seat> seats = seatService.getSeatsByTheater(theaterId);
+        List<Seat> seats = theaterService.getSeatsByTheater(theaterId);
         if (seats.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
+
 
 
 }
