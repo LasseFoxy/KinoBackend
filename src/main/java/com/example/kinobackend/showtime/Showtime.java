@@ -1,11 +1,9 @@
-package com.example.kinobackend.Showtime;
+package com.example.kinobackend.showtime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "showtimes")

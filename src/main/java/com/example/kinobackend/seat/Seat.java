@@ -13,10 +13,10 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seatId;
 
-    @Column(name = "`row_number`", nullable = false)
+    @Column(name = "row_number", nullable = false)
     private int rowNumber;
 
-    @Column(name = "'seat_number'", nullable = false)
+    @Column(name = "seat_number", nullable = false)
     private int seatNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.example.kinobackend.Ticket;
+package com.example.kinobackend.ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 public class TicketController {
 
     @Autowired
-    private TicketRepository ticketRepository;
+    private ITicketRepository ticketRepository;
 
     @GetMapping
     public List<Ticket> getAllTickets() {

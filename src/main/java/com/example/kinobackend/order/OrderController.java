@@ -1,4 +1,4 @@
-package com.example.kinobackend.Order;
+package com.example.kinobackend.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private IOrderRepository orderRepository;
     @Autowired
     private OrderService orderService;
 

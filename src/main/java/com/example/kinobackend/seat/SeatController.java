@@ -23,4 +23,14 @@ public class SeatController {
         }
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
+
+    @GetMapping("/theatre/{theatreId}")
+    public List<Seat> getSeatsByTheatre(@PathVariable int theaterId) {
+        return seatService.getSeatsByTheater(theaterId);
+    }
+
+    @GetMapping("/byIds")
+    public List<Seat> getSeatsByIds(@RequestParam List<Integer> seatIds) {
+        return seatService.findAllById(seatIds);
+    }
 }

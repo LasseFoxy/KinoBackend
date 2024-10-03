@@ -1,11 +1,11 @@
-package com.example.kinobackend.Order;
+package com.example.kinobackend.order;
 
-import com.example.kinobackend.Seat.Seat;
-import com.example.kinobackend.Seat.SeatRepository;
-import com.example.kinobackend.Showtime.Showtime;
-import com.example.kinobackend.Showtime.ShowtimeRepository;
-import com.example.kinobackend.Ticket.Ticket;
-import com.example.kinobackend.Ticket.TicketRepository;
+import com.example.kinobackend.seat.ISeatRepository;
+import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.showtime.Showtime;
+import com.example.kinobackend.showtime.IShowtimeRepository;
+import com.example.kinobackend.ticket.Ticket;
+import com.example.kinobackend.ticket.ITicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +16,16 @@ import java.util.List;
 @Service
 public class OrderService {
         @Autowired
-        private OrderRepository orderRepository;
+        private IOrderRepository orderRepository;
 
         @Autowired
-        private TicketRepository ticketRepository;
+        private ITicketRepository ticketRepository;
 
         @Autowired
-        private ShowtimeRepository showtimeRepository;
+        private IShowtimeRepository showtimeRepository;
 
         @Autowired
-        private SeatRepository seatRepository;
+        private ISeatRepository seatRepository;
 
         @Transactional
         public Order createOrder(OrderDTO orderRequest) {

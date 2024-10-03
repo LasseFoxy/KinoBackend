@@ -1,7 +1,7 @@
-package com.example.kinobackend.Order;
+package com.example.kinobackend.order;
 
-import com.example.kinobackend.Showtime.Showtime;
-import com.example.kinobackend.Ticket.Ticket;
+import com.example.kinobackend.showtime.Showtime;
+import com.example.kinobackend.ticket.Ticket;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;

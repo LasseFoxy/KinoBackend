@@ -1,4 +1,4 @@
-package com.example.kinobackend.Showtime;
+package com.example.kinobackend.showtime;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

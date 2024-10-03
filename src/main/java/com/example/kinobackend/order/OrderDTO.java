@@ -1,4 +1,4 @@
-package com.example.kinobackend.Order;
+package com.example.kinobackend.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderDTO {
     private String customerName;
     private Long showtimeId;
-    private List<Long> seatIds;
+    private List<Integer> seatIds;
 
 }
 
