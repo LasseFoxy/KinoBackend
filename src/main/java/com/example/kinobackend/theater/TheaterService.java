@@ -67,7 +67,7 @@ public class TheaterService {
         for (int row = 1; row <= theater.getNumberOfRows(); row++) {
             for (int seatNumber = 1; seatNumber <= theater.getSeatsPerRow(); seatNumber++) {
                 Seat seat = new Seat();
-                seat.setRowNumber(row);
+                seat.setSeatRow(row);
                 seat.setSeatNumber(seatNumber);
                 seat.setTheater(theater);
                 seats.add(seat);

@@ -22,6 +22,10 @@ public class SeatService {
                 .orElseThrow(() -> new ResourceNotFoundException("Sæde med id " + seatId + " ikke fundet."));
     }
 
+    public List<Seat> findAllById(List<Integer> seatIds) {
+        return seatRepository.findAllById(seatIds);
+    }
+
     // Exception, hvis et sæde ikke findes
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public class ResourceNotFoundException extends RuntimeException {
