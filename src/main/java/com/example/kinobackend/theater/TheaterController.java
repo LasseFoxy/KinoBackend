@@ -9,7 +9,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/theaters")
+@RequestMapping("/theater")
 public class TheaterController {
 
     @Autowired
