@@ -11,5 +11,5 @@ public interface IOrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.tickets WHERE o.orderId = :orderId")
     Order findOrderWithTickets(Long orderId);
 
-    List<Order> findByShowtime_ShowtimeId(Long showtimeId);
+    List<Order> findByShowing_ShowingId(Long showingId);
 }

@@ -1,6 +1,7 @@
 package com.example.kinobackend.theater;
 
 import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.showing.Showing;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class Theater {
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
+
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Showing> showings = new ArrayList<>();
 
     @Column(nullable = false)
     private String name;

@@ -1,6 +1,6 @@
 package com.example.kinobackend.order;
 
-import com.example.kinobackend.showtime.Showtime;
+import com.example.kinobackend.showing.Showing;
 import com.example.kinobackend.ticket.Ticket;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -29,7 +29,7 @@ public class Order {
     @JsonManagedReference
     private List<Ticket> tickets;
     @ManyToOne
-    @JoinColumn(name = "showtime_id")
-    private Showtime showtime;
+    @JoinColumn(name = "showing_id")
+    private Showing showing;
 
 }

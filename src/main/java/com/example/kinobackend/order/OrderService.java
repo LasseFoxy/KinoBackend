@@ -2,8 +2,8 @@ package com.example.kinobackend.order;
 
 import com.example.kinobackend.seat.ISeatRepository;
 import com.example.kinobackend.seat.Seat;
-import com.example.kinobackend.showtime.Showtime;
-import com.example.kinobackend.showtime.IShowtimeRepository;
+import com.example.kinobackend.showing.Showing;
+import com.example.kinobackend.showing.IShowingRepository;
 import com.example.kinobackend.ticket.Ticket;
 import com.example.kinobackend.ticket.ITicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class OrderService {
         private ITicketRepository ticketRepository;
 
         @Autowired
-        private IShowtimeRepository showtimeRepository;
+        private IShowingRepository showingRepository;
 
         @Autowired
         private ISeatRepository seatRepository;
@@ -33,9 +33,9 @@ public class OrderService {
             order.setCustomerName(orderRequest.getCustomerName());
             order.setOrderTime(new Date());
             order = orderRepository.save(order);
-            Showtime showtime = showtimeRepository.findById(orderRequest.getShowtimeId())
-                    .orElseThrow(() -> new RuntimeException("Showtime not found"));
-            order.setShowtime(showtime);
+            Showing showing = showingRepository.findById(orderRequest.getShowingId())
+                    .orElseThrow(() -> new RuntimeException("Showing not found"));
+            order.setShowing(showing);
             List<Seat> seats = seatRepository.findAllById(orderRequest.getSeatIds());
             for (Seat seat : seats) {
                 Ticket ticket = new Ticket();
@@ -48,8 +48,8 @@ public class OrderService {
             return order;
         }
 
-    public List <Order> findOrderFromShowtimeId(Long showtimeId) {
-           return orderRepository.findByShowtime_ShowtimeId(showtimeId);
+    public List <Order> findOrderFromShowingId(Long showingId) {
+           return orderRepository.findByShowing_ShowingId(showingId);
     }
 
     public Order findOrderWithTickets(Long orderId) {

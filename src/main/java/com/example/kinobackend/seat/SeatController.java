@@ -10,27 +10,13 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/seats")
+@RequestMapping("/api/seats")
 public class SeatController {
 
     @Autowired
     private SeatService seatService;
     @Autowired
     private TheaterService theaterService;
-
-    @GetMapping("/theater/{theaterId}")
-    public ResponseEntity<List<Seat>> getSeatsByTheater(@PathVariable("theaterId") int theaterId) {
-        List<Seat> seats = seatService.getSeatsByTheater(theaterId);
-        if (seats.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(seats, HttpStatus.OK);
-    }
-
-    @GetMapping("/theater/{theaterId}")
-    public List<Seat> getSeatsByTheatre(@PathVariable int theaterId) {
-        return seatService.getSeatsByTheater(theaterId);
-    }
 
     @GetMapping("/byIds")
     public List<Seat> getSeatsByIds(@RequestParam List<Integer> seatIds) {

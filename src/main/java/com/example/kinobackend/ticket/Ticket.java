@@ -1,23 +1,17 @@
 package com.example.kinobackend.ticket;
 
-
 import com.example.kinobackend.order.Order;
 import com.example.kinobackend.seat.Seat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "tickets")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
+
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -60,7 +60,7 @@ public class TheaterService {
         }
     } */
 
-    // Genererer sæder baseret på rækker og sæder pr. række i den oprettede biografsal, med specifikt seatId
+    // Genererer sæder baseret på rækker og sæder pr. række i den oprettede biografsal
     private void generateSeats(Theater theater) {
         List<Seat> seats = new ArrayList<>();
 
@@ -76,6 +76,10 @@ public class TheaterService {
 
         // Gem alle sæder i batch
         seatRepository.saveAll(seats);
+    }
+
+    public List<Seat> getSeatsByTheater(int theaterId) {
+        return seatRepository.findByTheaterTheaterId(theaterId);
     }
 
     // Custom undtagelse, hvis en biografsal ikke findes

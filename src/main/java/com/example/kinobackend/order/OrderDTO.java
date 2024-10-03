@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderDTO {
     private String customerName;
-    private Long showtimeId;
+    private Long showingId;
     private List<Integer> seatIds;
 
 }

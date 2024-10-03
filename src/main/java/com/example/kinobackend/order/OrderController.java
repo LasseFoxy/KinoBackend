@@ -30,9 +30,9 @@ public class OrderController {
         return orderService.findAll();
     }
 
-    @GetMapping("/showtimes/{showtimeId}")
-    public List <Order> getOrderFromShowtimeId(@PathVariable Long showtimeId){
-        return orderService.findOrderFromShowtimeId(showtimeId);
+    @GetMapping("/showing/{showingId}")
+    public List <Order> getOrderFromShowingId(@PathVariable Long showingId){
+        return orderService.findOrderFromShowingId(showingId);
     }
 
 
