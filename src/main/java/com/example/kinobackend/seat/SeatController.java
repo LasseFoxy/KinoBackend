@@ -15,8 +15,6 @@ public class SeatController {
 
     @Autowired
     private SeatService seatService;
-    @Autowired
-    private TheaterService theaterService;
 
     @GetMapping("/byIds")
     public List<Seat> getSeatsByIds(@RequestParam List<Integer> seatIds) {

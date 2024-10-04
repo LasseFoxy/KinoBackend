@@ -1,5 +1,6 @@
 package com.example.kinobackend.seat;
 
+import com.example.kinobackend.ticket.Ticket;
 import jakarta.persistence.*;
 import lombok.Data;
 import com.example.kinobackend.theater.Theater;
@@ -22,4 +23,7 @@ public class Seat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
+
+    @OneToOne(mappedBy = "seat")
+    private Ticket ticket;
 }

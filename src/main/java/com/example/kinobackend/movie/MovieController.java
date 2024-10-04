@@ -11,14 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/movie")
+@RequestMapping("/api/movie")
 @CrossOrigin
 public class MovieController {
 
     @Autowired
     private MovieService movieService;
-    @Autowired
-    private ImageService imageService;
 
     // Get all movies
     @GetMapping()
@@ -39,10 +37,14 @@ public class MovieController {
     }
 
     // Create a new movie in database
-    @PostMapping("/")
-    public ResponseEntity<Movie> create(@RequestBody Movie movie) {
-        Movie createdMovie = movieService.createMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Movie movie) {
+        try {
+            Movie createdMovie = movieService.createMovie(movie);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating movie: " + e.getMessage());
+        }
     }
 
     // Update movie by ID
@@ -59,28 +61,6 @@ public class MovieController {
             return ResponseEntity.ok("Movie deleted");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
-        }
-    }
-
-    // Upload image for a movie
-    @PostMapping("/upload-image")
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
-        // Validate file type
-        String contentType = image.getContentType();
-        if (!contentType.startsWith("image/")) {
-            return ResponseEntity.badRequest().body("File must be an image");
-        }
-
-        // Validate file size (max 5MB)
-        if (image.getSize() > 5 * 1024 * 1024) {  // 5MB
-            return ResponseEntity.badRequest().body("File size exceeds 5MB");
-        }
-
-        try {
-            imageService.saveImage(image);
-            return ResponseEntity.ok("Image uploaded successfully");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
         }
     }
 }

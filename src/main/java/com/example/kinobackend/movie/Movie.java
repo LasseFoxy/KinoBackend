@@ -1,39 +1,41 @@
 package com.example.kinobackend.movie;
 
+import com.example.kinobackend.showing.Showing;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Table(name = "movie")
 @Entity
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int movieID;
+    @Column(name = "movie_id")
+    private int movieId;
+
+    @Column(name = "title", nullable = false)
     private String title;
-    @Column(length = 1000)
+
+    @Column(name = "description", nullable = false, length = 1000)
     private String description;
+
+    @Column(name = "genre", nullable = false)
     private String genre;
+
+    @Column(name = "duration", nullable = false)
     private int duration;
+
+    @Column(name = "age_limit", nullable = false)
     private int ageLimit;
 
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    // Gemmer billede som byte-array (f.eks. som billede-data)
-    @Column(length = 1000)
-    private byte[] movieImage;  // Gemmer billede som byte-array
-
-    // Liste af billeder knyttet til filmen
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")  // Relaterer til 'movie_id' i Image-tabelen
-    private List<Image> images;  // Liste af billeder knyttet til filmen
-
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Showing> showings = new ArrayList<>();
 }
+
