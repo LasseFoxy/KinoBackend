@@ -1,11 +1,15 @@
 package com.example.kinobackend.movie;
 
+import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.showing.Showing;
+import com.example.kinobackend.theater.Theater;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,22 +22,22 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int movieID;
+    private int movieId;
+
+    @Column(length = 225)
     private String title;
+
     @Column(length = 1000)
     private String description;
+
     private String genre;
     private int duration;
     private int ageLimit;
 
+    private String movieImage;
 
-    // Gemmer billede som byte-array (f.eks. som billede-data)
-    @Column(length = 1000)
-    private byte[] movieImage;  // Gemmer billede som byte-array
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Showing> showings = new ArrayList<>();
 
-    // Liste af billeder knyttet til filmen
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")  // Relaterer til 'movie_id' i Image-tabelen
-    private List<Image> images;  // Liste af billeder knyttet til filmen
 
 }

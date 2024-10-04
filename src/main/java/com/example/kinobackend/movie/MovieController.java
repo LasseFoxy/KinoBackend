@@ -17,8 +17,6 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
-    @Autowired
-    private ImageService imageService;
 
     // Get all movies
     @GetMapping()
@@ -61,26 +59,5 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
         }
     }
-
-    // Upload image for a movie
-    @PostMapping("/upload-image")
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
-        // Validate file type
-        String contentType = image.getContentType();
-        if (!contentType.startsWith("image/")) {
-            return ResponseEntity.badRequest().body("File must be an image");
-        }
-
-        // Validate file size (max 5MB)
-        if (image.getSize() > 5 * 1024 * 1024) {  // 5MB
-            return ResponseEntity.badRequest().body("File size exceeds 5MB");
-        }
-
-        try {
-            imageService.saveImage(image);
-            return ResponseEntity.ok("Image uploaded successfully");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
-        }
-    }
+    
 }

@@ -1,4 +1,5 @@
 package com.example.kinobackend.showing;
+import com.example.kinobackend.movie.Movie;
 import com.example.kinobackend.theater.Theater;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +19,10 @@ public class Showing {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
 //
 //    private Date showing;
 //

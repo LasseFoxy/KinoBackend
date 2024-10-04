@@ -29,7 +29,7 @@ public class MovieService {
     }
     public Optional<Movie> updateMovie(int id, Movie updatedMovie) {
         return movieRepository.findById(id).map(movie -> {
-            updatedMovie.setMovieID(id);
+            updatedMovie.setMovieId(id);
             return movieRepository.save(updatedMovie);
         });
     }
@@ -43,16 +43,5 @@ public class MovieService {
         return false;
     }
 
-    // Tilføjer billede til filmen
-    public void addImageToMovie(int movieId, MultipartFile image) throws IOException {
-        Optional<Movie> movie = movieRepository.findById(movieId);
-        if (movie.isPresent()) {
-            Movie updatedMovie = movie.get();
-            // Sætter billede som byte-array
-            updatedMovie.setMovieImage(image.getBytes());
-            movieRepository.save(updatedMovie);
-        } else {
-            throw new RuntimeException("Movie not found");
-        }
-    }
+
 }
