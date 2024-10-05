@@ -14,5 +14,6 @@ public class ShowingService {
     public List<Showing> findAll() {
         return showingRepository.findAll();
     }
+
 }
 
