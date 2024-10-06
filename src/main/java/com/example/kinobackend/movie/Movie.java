@@ -34,6 +34,8 @@ public class Movie {
     private int duration;
     private int ageLimit;
 
+    // Setter for movieImage (if not using @Setter annotation)
+    @Setter
     private String movieImage;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
