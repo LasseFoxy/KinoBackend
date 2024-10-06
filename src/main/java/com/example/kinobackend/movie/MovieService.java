@@ -16,7 +16,7 @@ import java.util.Optional;
 public class MovieService {
 
     @Autowired
-    private MovieRepository movieRepository;
+    private IMovieRepository movieRepository;
 
     // Directory where images will be stored
     private final String imageDirectory = "path/to/your/image/directory"; // Set your desired path
