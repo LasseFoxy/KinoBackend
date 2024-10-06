@@ -2,6 +2,7 @@ package com.example.kinobackend.theater;
 
 import com.example.kinobackend.seat.Seat;
 import com.example.kinobackend.showing.Showing;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -17,9 +18,11 @@ public class Theater {
     private int theaterId;
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Seat> seats = new ArrayList<>();
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Showing> showings = new ArrayList<>();
 
     @Column(nullable = false)

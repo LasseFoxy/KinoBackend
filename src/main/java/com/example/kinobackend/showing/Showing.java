@@ -1,11 +1,13 @@
 package com.example.kinobackend.showing;
+
 import com.example.kinobackend.movie.Movie;
 import com.example.kinobackend.theater.Theater;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -18,10 +20,10 @@ public class Showing {
     private int showingId;
 
     @Column(name = "start_time")
-    private Time startTime;
+    private LocalTime startTime;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
@@ -29,6 +31,7 @@ public class Showing {
 
     @ManyToOne
     @JoinColumn(name = "theater_id")
+    @JsonIgnoreProperties("showings")
     private Theater theater;
 
 }
