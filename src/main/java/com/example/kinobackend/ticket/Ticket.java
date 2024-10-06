@@ -10,15 +10,14 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "tickets")
-
+@Table(name = "ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_id")
+    @OneToOne
+    @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
     @ManyToOne

@@ -1,11 +1,10 @@
 package com.example.kinobackend.movie;
 
-import com.example.kinobackend.movie.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MovieRepository extends JpaRepository<Movie, Integer> {
+public interface IMovieRepository extends JpaRepository<Movie, Integer> {
 
     Optional<Movie> findMovieByMovieId(int id);
 }
