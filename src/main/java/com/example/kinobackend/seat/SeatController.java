@@ -10,14 +10,22 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/seats")
+@RequestMapping("/api/seat")
 public class SeatController {
+
+
 
     @Autowired
     private SeatService seatService;
 
+    @GetMapping("/theater/{theaterId}")
+    public List<SeatDTO> getSeatsByTheater(@PathVariable int theaterId) {
+        return seatService.findByTheatre_TheatreId(theaterId);
+    }
+
     @GetMapping("/byIds")
-    public List<Seat> getSeatsByIds(@RequestParam List<Integer> seatIds) {
+    public List<SeatDTO> getSeatsByIds(@RequestParam List<Integer> seatIds) {
         return seatService.findAllById(seatIds);
     }
+
 }

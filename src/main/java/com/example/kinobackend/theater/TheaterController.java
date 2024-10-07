@@ -1,6 +1,6 @@
 package com.example.kinobackend.theater;
 
-import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.seat.SeatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +28,8 @@ public class TheaterController {
     }
 
     @GetMapping("/{theaterId}")
-    public ResponseEntity<List<Seat>> getSeatsByTheater(@PathVariable("theaterId") int theaterId) {
-        List<Seat> seats = theaterService.getSeatsByTheater(theaterId);
+    public ResponseEntity<List<SeatDTO>> getSeatsByTheater(@PathVariable("theaterId") int theaterId) {
+        List<SeatDTO> seats = theaterService.getSeatsByTheater(theaterId);
         if (seats.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

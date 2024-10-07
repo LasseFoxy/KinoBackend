@@ -61,4 +61,9 @@ public class MovieController {
         }
     }
 
+    @GetMapping("/movieDTOs")
+    public List<MovieDTO> getAllMovieDTOs() {
+        return movieService.getAllMovieDTOs();
+    }
+
 }
