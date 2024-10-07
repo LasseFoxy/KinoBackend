@@ -32,6 +32,14 @@ public class TheaterService {
         return theaterRepository.findAll();
     }
 
+    public boolean deleteTheater(int theaterId) {
+        if (theaterRepository.existsById(theaterId)) {
+            theaterRepository.deleteById(theaterId);
+            return true;
+        }
+        return false;
+    }
+
     public Theater saveTheater(Theater theater) {
         Theater savedTheater = theaterRepository.save(theater);
 
@@ -40,7 +48,6 @@ public class TheaterService {
 
         // Opret showings 3 måneder frem
         createShowingsForNextThreeMonths(savedTheater);
-
         return savedTheater;
     }
 
@@ -85,5 +92,4 @@ public class TheaterService {
             showingRepository.save(newShowing);
         }
     }
-
 }
