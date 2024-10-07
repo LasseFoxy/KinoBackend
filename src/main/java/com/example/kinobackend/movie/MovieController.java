@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/movie")
+@RequestMapping("/api/movie")
 @CrossOrigin
 public class MovieController {
 
@@ -37,10 +37,14 @@ public class MovieController {
     }
 
     // Create a new movie in database
-    @PostMapping("/")
-    public ResponseEntity<Movie> create(@RequestBody Movie movie) {
-        Movie createdMovie = movieService.createMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Movie movie) {
+        try {
+            Movie createdMovie = movieService.createMovie(movie);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating movie: " + e.getMessage());
+        }
     }
 
     // Update movie by ID
@@ -59,5 +63,5 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
         }
     }
-    
+
 }

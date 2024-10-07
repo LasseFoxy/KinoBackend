@@ -1,25 +1,22 @@
 package com.example.kinobackend.showing;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class ShowingDTO {
-    private Long showingId;
-    private String showingTime;
+    private int showingId;
+    private LocalDate date;
+    private LocalTime startTime;
+    private int theaterId;
     private String theaterName;
-    private Long theaterId;
 
-  /*  public ShowingDTO(Showing showing) {
-        this.showingId = showingTime.getShowingId();
-        this.showingTime = showingTime.getShowingTime().toString();
-        this.theaterName = showingTime.getTheater().getName();
-        this.theaterId = showingTime.getTheatre().getTheaterId();
-        System.out.println("ShowingTimeDTO created with showingId: " + this.showingId);
+    public ShowingDTO(int showingId, LocalDate date, LocalTime startTime, int theaterId, String theaterName) {
+        this.showingId = showingId;
+        this.date = date;
+        this.startTime = startTime;
+        this.theaterId = theaterId;
+        this.theaterName = theaterName;
     }
- */
-
 }

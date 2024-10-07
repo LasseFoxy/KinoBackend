@@ -1,34 +1,40 @@
 package com.example.kinobackend.showing;
+
 import com.example.kinobackend.movie.Movie;
 import com.example.kinobackend.theater.Theater;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
 @Table(name = "showing")
 public class Showing {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long showingId;
+    @Column(name = "showing_id")
+    private int showingId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "movie_id")
-//    private Movie movie;
-//
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id", nullable = false)
+    @Column(name = "start_time")
+    private LocalTime startTime;
+
+    @Column(name = "date")
+    private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    @JsonIgnore
+    private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name = "theater_id")
+    @JsonIgnoreProperties("showings")
     private Theater theater;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Movie movie;
-//
-//    private Date showing;
-//
-//    public Showing(Movie movie, Theater theater, Date showing) {
-//        this.movie = movie;
-//        this.theater = theater;
-//        this.showing = showing;
-//    }
 }
+

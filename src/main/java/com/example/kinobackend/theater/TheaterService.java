@@ -2,11 +2,13 @@ package com.example.kinobackend.theater;
 
 import com.example.kinobackend.seat.Seat;
 import com.example.kinobackend.seat.ISeatRepository;
+import com.example.kinobackend.showing.IShowingRepository;
+import com.example.kinobackend.showing.Showing;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,48 +21,29 @@ public class TheaterService {
     @Autowired
     private ISeatRepository seatRepository;
 
-    public Theater saveTheater(Theater theater) {
-        Theater savedTheater = theaterRepository.save(theater);
+    @Autowired
+    private IShowingRepository showingRepository;
 
-        // Generer sæder til biografsalen
-        generateSeats(savedTheater);
-
-        return savedTheater;
-    }
-
-    public Theater getTheaterById(int id) {
-        return theaterRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Biografsal med id " + id + " ikke fundet."));
+    public List<Seat> getSeatsByTheater(int theaterId) {
+        return seatRepository.findByTheaterTheaterId(theaterId);
     }
 
     public List<Theater> getAllTheaters() {
         return theaterRepository.findAll();
     }
 
-    /*
-    // Opdaterer en biografsal og regenererer sæder
-    public Theater updateTheater(int id, Theater theaterDetails) {
-        Optional<Theater> optionalTheater = theaterRepository.findById(id);
+    public Theater saveTheater(Theater theater) {
+        Theater savedTheater = theaterRepository.save(theater);
 
-        if (optionalTheater.isPresent()) {
-            Theater existingTheater = optionalTheater.get();
-            existingTheater.setName(theaterDetails.getName());
-            existingTheater.setNumberOfRows(theaterDetails.getNumberOfRows());
-            existingTheater.setSeatsPerRow(theaterDetails.getSeatsPerRow());
+        // Generer sæder til biografsalen
+        generateSeats(savedTheater);
 
-            // Gem opdateret biografsal
-            Theater updatedTheater = theaterRepository.save(existingTheater);
+        // Opret showings 3 måneder frem
+        createShowingsForNextThreeMonths(savedTheater);
 
-            // Generer sæder igen efter opdatering
-            generateSeats(updatedTheater);
+        return savedTheater;
+    }
 
-            return updatedTheater;
-        } else {
-            throw new ResourceNotFoundException("Biografsal med id " + id + " ikke fundet.");
-        }
-    } */
-
-    // Genererer sæder baseret på rækker og sæder pr. række i den oprettede biografsal
     private void generateSeats(Theater theater) {
         List<Seat> seats = new ArrayList<>();
 
@@ -73,20 +56,34 @@ public class TheaterService {
                 seats.add(seat);
             }
         }
-
-        // Gem alle sæder i batch
         seatRepository.saveAll(seats);
     }
 
-    public List<Seat> getSeatsByTheater(int theaterId) {
-        return seatRepository.findByTheaterTheaterId(theaterId);
-    }
+    private void createShowingsForNextThreeMonths(Theater theater) {
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusMonths(3);
 
-    // Custom undtagelse, hvis en biografsal ikke findes
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class ResourceNotFoundException extends RuntimeException {
-        public ResourceNotFoundException(String message) {
-            super(message);
+        for (LocalDate date = today; !date.isAfter(endDate); date = date.plusDays(1)) {
+            createShowingsForDate(theater, date);
         }
     }
+
+    private void createShowingsForDate(Theater theater, LocalDate date) {
+        List<LocalTime> showingTimes = List.of(
+                LocalTime.of(12, 0), // 12:00
+                LocalTime.of(16, 0), // 16:00
+                LocalTime.of(20, 0)  // 20:00
+        );
+
+        for (LocalTime time : showingTimes) {
+            Showing newShowing = new Showing();
+            newShowing.setTheater(theater);
+            newShowing.setDate(date);
+            newShowing.setStartTime(time);
+
+            // Gem den nye showing
+            showingRepository.save(newShowing);
+        }
+    }
+
 }
