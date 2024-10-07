@@ -2,6 +2,7 @@ package com.example.kinobackend.theater;
 
 import com.example.kinobackend.seat.Seat;
 import com.example.kinobackend.seat.ISeatRepository;
+import com.example.kinobackend.seat.SeatDTO;
 import com.example.kinobackend.showing.IShowingRepository;
 import com.example.kinobackend.showing.Showing;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class TheaterService {
     @Autowired
     private IShowingRepository showingRepository;
 
-    public List<Seat> getSeatsByTheater(int theaterId) {
-        return seatRepository.findByTheaterTheaterId(theaterId);
+    public List<SeatDTO> getSeatsByTheater(int theaterId) {
+        return seatRepository.findSeatDTOByTheaterTheaterId(theaterId);
     }
 
     public List<Theater> getAllTheaters() {
