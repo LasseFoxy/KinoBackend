@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IOrderRepository extends JpaRepository<Order, Long> {
+public interface IOrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.tickets WHERE o.orderId = :orderId")
-    Order findOrderWithTickets(Long orderId);
+    Order findOrderWithTickets(int orderId);
 
-    List<Order> findByShowing_ShowingId(Long showingId);
+    List<Order> findByShowing_ShowingId(int showingId);
 }
