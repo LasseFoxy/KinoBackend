@@ -21,7 +21,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public Order getOrderWithTickets(@PathVariable Long orderId) {
+    public Order getOrderWithTickets(@PathVariable int orderId) {
        return orderService.findOrderWithTickets(orderId);
    }
 
@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/showing/{showingId}")
-    public List <Order> getOrderFromShowingId(@PathVariable Long showingId){
+    public List <Order> getOrderFromShowingId(@PathVariable int showingId){
         return orderService.findOrderFromShowingId(showingId);
     }
 

@@ -48,11 +48,11 @@ public class OrderService {
             return order;
         }
 
-    public List <Order> findOrderFromShowingId(Long showingId) {
+    public List <Order> findOrderFromShowingId(int showingId) {
            return orderRepository.findByShowing_ShowingId(showingId);
     }
 
-    public Order findOrderWithTickets(Long orderId) {
+    public Order findOrderWithTickets(int orderId) {
             return orderRepository.findOrderWithTickets(orderId);
     }
 

@@ -2,6 +2,7 @@ package com.example.kinobackend.showing;
 
 import com.example.kinobackend.movie.Movie;
 import com.example.kinobackend.theater.Theater;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,7 @@ public class Showing {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @JsonIgnore
     private Movie movie;
 
     @ManyToOne

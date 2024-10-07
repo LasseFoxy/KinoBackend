@@ -1,6 +1,7 @@
 package com.example.kinobackend.movie;
 
 import com.example.kinobackend.showing.Showing;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,7 @@ public class Movie {
     private String imageUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Showing> showings = new ArrayList<>();
 }
 
