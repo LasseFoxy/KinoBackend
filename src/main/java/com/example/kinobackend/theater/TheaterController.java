@@ -35,5 +35,12 @@ public class TheaterController {
         }
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
-
+    @DeleteMapping("/{theaterId}")
+    public ResponseEntity<String> deleteTheater(@PathVariable("theaterId") int theaterId) {
+        if (theaterService.deleteTheater(theaterId)) {
+            return new ResponseEntity<>("Theater deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Theater not found", HttpStatus.NOT_FOUND);
+        }
+    }
 }
