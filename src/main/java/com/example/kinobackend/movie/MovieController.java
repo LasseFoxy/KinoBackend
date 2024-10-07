@@ -63,4 +63,5 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
         }
     }
+
 }

@@ -4,11 +4,10 @@ import com.example.kinobackend.showing.Showing;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Table(name = "movie")
 @Entity
 public class Movie {
