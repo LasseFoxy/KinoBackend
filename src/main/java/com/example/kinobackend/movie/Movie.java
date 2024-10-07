@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Data
 @Table(name = "movie")
 @Entity
 public class Movie {
