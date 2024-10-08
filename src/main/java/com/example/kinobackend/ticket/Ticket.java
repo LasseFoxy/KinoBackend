@@ -2,6 +2,7 @@ package com.example.kinobackend.ticket;
 
 import com.example.kinobackend.order.Order;
 import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.showing.Showing;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,11 @@ public class Ticket {
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "showing_id")
+    private Showing showing;
+
     private Date bookingTime = new Date();
 
 }

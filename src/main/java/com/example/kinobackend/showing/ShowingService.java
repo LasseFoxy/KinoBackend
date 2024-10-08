@@ -2,6 +2,8 @@ package com.example.kinobackend.showing;
 
 import com.example.kinobackend.movie.IMovieRepository;
 import com.example.kinobackend.movie.Movie;
+import com.example.kinobackend.order.IOrderRepository;
+import com.example.kinobackend.order.Order;
 import com.example.kinobackend.theater.ITheaterRepository;
 import com.example.kinobackend.theater.Theater;
 import com.example.kinobackend.ticket.ITicketRepository;
@@ -28,6 +30,9 @@ public class ShowingService {
 
     @Autowired
     private ITicketRepository ticketRepository;
+
+    @Autowired
+    private IOrderRepository orderRepository;
 
     public void assignMovieToShowings(int movieId, int theaterId, List<Integer> showingIds) {
         Movie movie = movieRepository.findById(movieId)
@@ -59,15 +64,22 @@ public class ShowingService {
     }
 
     public boolean deleteShowingIfNoTickets(int movieId) {
-        List<Showing> showings = showingRepository.findByMovieId(movieId);
-
+        List<Showing> showings = showingRepository.findByMovieMovieId(movieId);
+        boolean deletedAny = false;
         for (Showing showing : showings) {
             List<Ticket> tickets = ticketRepository.findByShowing(showing);
             if (tickets.isEmpty()) {
-                showingRepository.delete(showing);
-                return true;
+                List<Order> orders = orderRepository.findByShowing_ShowingId(showing.getShowingId());
+                if (orders.isEmpty()) {
+                    showingRepository.delete(showing);
+                    deletedAny = true;
+                } else {
+                    throw new IllegalArgumentException("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated orders.");
+                }
+            } else {
+                throw new IllegalArgumentException("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated tickets.");
             }
         }
-        return false;
+        return deletedAny;
     }
 }

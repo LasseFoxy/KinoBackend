@@ -8,5 +8,5 @@ public interface IShowingRepository extends JpaRepository<Showing, Integer> {
     //List<Showing> findByMovie(Movie movie);
     List<Showing> findByShowingId(int showingId);
     List<Showing> findByTheaterTheaterIdAndDateBetweenAndMovieIsNull(int theaterId, LocalDate startDate, LocalDate endDate);
-    List<Showing> findByMovieId(int movieId);
+    List<Showing> findByMovieMovieId(int movieId);
 }
