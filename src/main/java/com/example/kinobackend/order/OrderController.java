@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/order")
 public class OrderController {
 
-    @Autowired
-    private IOrderRepository orderRepository;
     @Autowired
     private OrderService orderService;
 
@@ -21,7 +19,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public Order getOrderWithTickets(@PathVariable Long orderId) {
+    public Order getOrderWithTickets(@PathVariable int orderId) {
        return orderService.findOrderWithTickets(orderId);
    }
 
@@ -31,7 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/showing/{showingId}")
-    public List <Order> getOrderFromShowingId(@PathVariable Long showingId){
+    public List <Order> getOrderFromShowingId(@PathVariable int showingId){
         return orderService.findOrderFromShowingId(showingId);
     }
 

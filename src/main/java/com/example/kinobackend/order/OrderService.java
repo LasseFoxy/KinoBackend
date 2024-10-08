@@ -2,6 +2,8 @@ package com.example.kinobackend.order;
 
 import com.example.kinobackend.seat.ISeatRepository;
 import com.example.kinobackend.seat.Seat;
+import com.example.kinobackend.seat.SeatDTO;
+import com.example.kinobackend.seat.SeatService;
 import com.example.kinobackend.showing.Showing;
 import com.example.kinobackend.showing.IShowingRepository;
 import com.example.kinobackend.ticket.Ticket;
@@ -25,34 +27,45 @@ public class OrderService {
         private IShowingRepository showingRepository;
 
         @Autowired
-        private ISeatRepository seatRepository;
+        private SeatService seatService;
 
-        @Transactional
-        public Order createOrder(OrderDTO orderRequest) {
-            Order order = new Order();
-            order.setCustomerName(orderRequest.getCustomerName());
-            order.setOrderTime(new Date());
-            order = orderRepository.save(order);
-            Showing showing = showingRepository.findById(orderRequest.getShowingId())
-                    .orElseThrow(() -> new RuntimeException("Showing not found"));
-            order.setShowing(showing);
-            List<Seat> seats = seatRepository.findAllById(orderRequest.getSeatIds());
-            for (Seat seat : seats) {
-                Ticket ticket = new Ticket();
-                ticket.setSeat(seat);
-                ticket.setOrder(order);
-                ticketRepository.save(ticket);
-            }
-            List<Ticket> tickets = ticketRepository.findByOrder(order);
-            order.setTickets(tickets);
-            return order;
+    @Transactional
+    public Order createOrder(OrderDTO orderRequest) {
+        Order order = new Order();
+        order.setCustomerName(orderRequest.getCustomerName());
+        order.setOrderTime(new Date());
+        order = orderRepository.save(order);
+
+        // Fetch the Showing
+        Showing showing = showingRepository.findById(orderRequest.getShowingId())
+                .orElseThrow(() -> new RuntimeException("Showing not found"));
+        order.setShowing(showing);
+
+        // Fetch the SeatDTOs
+        List<SeatDTO> seatDTOs = seatService.findAllById(orderRequest.getSeatIds());
+
+        // Convert SeatDTOs to Seat entities
+        for (SeatDTO seatDTO : seatDTOs) {
+            // Conversion logic from SeatDTO to Seat entity
+            Seat seat = seatService.findById(seatDTO.getSeatId());
+            Ticket ticket = new Ticket();
+            ticket.setSeat(seat);  // Now seat is a Seat entity
+            ticket.setOrder(order);
+            ticketRepository.save(ticket);
         }
 
-    public List <Order> findOrderFromShowingId(Long showingId) {
+        // Fetch and set the tickets
+        List<Ticket> tickets = ticketRepository.findByOrder(order);
+        order.setTickets(tickets);
+
+        return order;
+    }
+
+    public List <Order> findOrderFromShowingId(int showingId) {
            return orderRepository.findByShowing_ShowingId(showingId);
     }
 
-    public Order findOrderWithTickets(Long orderId) {
+    public Order findOrderWithTickets(int orderId) {
             return orderRepository.findOrderWithTickets(orderId);
     }
 

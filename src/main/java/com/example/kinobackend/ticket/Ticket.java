@@ -14,7 +14,7 @@ import java.util.Date;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticketId;
+    private int ticketId;
 
     @OneToOne
     @JoinColumn(name = "seat_id", nullable = false)
