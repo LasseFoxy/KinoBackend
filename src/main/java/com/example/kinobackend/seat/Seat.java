@@ -26,7 +26,4 @@ public class Seat {
     @JsonIgnoreProperties("seats")
 
     private Theater theater;
-
-    @OneToOne(mappedBy = "seat")
-    private Ticket ticket;
 }

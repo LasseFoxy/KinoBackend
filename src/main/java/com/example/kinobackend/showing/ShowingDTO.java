@@ -1,10 +1,17 @@
 package com.example.kinobackend.showing;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class ShowingDTO {
     private int showingId;
     private LocalDate date;
@@ -19,4 +26,6 @@ public class ShowingDTO {
         this.theaterId = theaterId;
         this.theaterName = theaterName;
     }
+
+
 }
