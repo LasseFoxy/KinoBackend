@@ -32,9 +32,8 @@ public class Movie {
     @Column(name = "age_limit", nullable = false)
     private int ageLimit;
 
-    // Setter for movieImage (if not using @Setter annotation)
-    @Setter
-    private String movieImage;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

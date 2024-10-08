@@ -1,9 +1,13 @@
 package com.example.kinobackend.movie;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,38 +30,29 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<Movie> findById(@PathVariable int id) {
         Optional<Movie> movie = movieService.findMovieById(id);
-        return movie.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (movie.isPresent()) {
+            return new ResponseEntity<>(movie.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     // Create a new movie in database
-    @PostMapping("/")
-    public ResponseEntity<Movie> create(@RequestParam("movie") String movieJson,
-                                        @RequestParam("image") MultipartFile image) {
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Movie movie) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Movie movie = objectMapper.readValue(movieJson, Movie.class);
-            Movie createdMovie = movieService.createMovie(movie, image);
+            Movie createdMovie = movieService.createMovie(movie);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle the error appropriately
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating movie: " + e.getMessage());
         }
     }
 
     // Update movie by ID
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable int id,
-                                         @RequestParam("movie") String movieJson,
-                                         @RequestParam("image") MultipartFile image) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Movie updatedMovie = objectMapper.readValue(movieJson, Movie.class);
-            Optional<Object> movie = movieService.updateMovie(id, updatedMovie, image);
-            return movie.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle the error appropriately
-        }
+    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie updatedMovie) {
+        Optional<Movie> updated = movieService.updateMovie(id, updatedMovie);
+        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Delete movie by ID

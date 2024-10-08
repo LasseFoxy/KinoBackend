@@ -5,9 +5,6 @@ import com.example.kinobackend.showing.Showing;
 import com.example.kinobackend.showing.ShowingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,32 +26,12 @@ public class MovieService {
         return movieRepository.findById(id);
     }
 
-    public Movie createMovie(Movie movie, MultipartFile imageFile) throws IOException {
-        // Logic to save the image file and get its path
-        String imagePath = saveImage(imageFile);  // Implement this method based on your requirements
-        movie.setMovieImage(imagePath);  // Use setMovieImage to set the image path
+    public Movie createMovie(Movie movie){
         return movieRepository.save(movie);
     }
-
-    public Optional<Object> updateMovie(int id, Movie updatedMovie, MultipartFile image) {
+    public Optional<Movie> updateMovie(int id, Movie updatedMovie) {
         return movieRepository.findById(id).map(movie -> {
             updatedMovie.setMovieId(id);
-
-            // Handle image upload
-            try {
-                if (image != null && !image.isEmpty()) {
-                    String imagePath = saveImage(image);
-                    updatedMovie.setMovieImage(imagePath); // Update the image path if a new image is uploaded
-                } else {
-                    updatedMovie.setMovieImage(movie.getMovieImage()); // Retain the old image if no new image is uploaded
-                }
-            } catch (IOException e) {
-                // Log the exception
-                e.printStackTrace();
-                // Handle error accordingly; here we can return empty optional to signal the failure
-                return Optional.empty();
-            }
-
             return movieRepository.save(updatedMovie);
         });
     }
@@ -74,7 +51,6 @@ public class MovieService {
         return movies.stream().map(movie -> {
             // Fetch showtimes for the current movie
             List<Showing> showtimes = showingRepository.findByMovie(movie);
-
 
             // Create a new MovieDTO and map showtimes to it
             MovieDTO movieDTO = new MovieDTO();
