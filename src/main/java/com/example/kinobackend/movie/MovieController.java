@@ -26,29 +26,38 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<Movie> findById(@PathVariable int id) {
         Optional<Movie> movie = movieService.findMovieById(id);
-        if (movie.isPresent()) {
-            return new ResponseEntity<>(movie.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return movie.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Create a new movie in database
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Movie movie) {
+    @PostMapping("/")
+    public ResponseEntity<Movie> create(@RequestParam("movie") String movieJson,
+                                        @RequestParam("image") MultipartFile image) {
         try {
-            Movie createdMovie = movieService.createMovie(movie);
+            ObjectMapper objectMapper = new ObjectMapper();
+            Movie movie = objectMapper.readValue(movieJson, Movie.class);
+            Movie createdMovie = movieService.createMovie(movie, image);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating movie: " + e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle the error appropriately
         }
     }
 
     // Update movie by ID
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie updatedMovie) {
-        Optional<Movie> updated = movieService.updateMovie(id, updatedMovie);
-        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Object> update(@PathVariable int id,
+                                         @RequestParam("movie") String movieJson,
+                                         @RequestParam("image") MultipartFile image) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Movie updatedMovie = objectMapper.readValue(movieJson, Movie.class);
+            Optional<Object> movie = movieService.updateMovie(id, updatedMovie, image);
+            return movie.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle the error appropriately
+        }
     }
 
     // Delete movie by ID
