@@ -14,5 +14,5 @@ public class MovieDTO {
     private String title;
     private String genre;
     private List<ShowingDTO> showings = new ArrayList<>();;
-    private String posterUrl;
+    private String imageUrl;
 }

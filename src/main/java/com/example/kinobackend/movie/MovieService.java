@@ -61,7 +61,7 @@ public class MovieService {
             movieDTO.setMovieId(movie.getMovieId());
             movieDTO.setTitle(movie.getTitle());
             movieDTO.setGenre(movie.getGenre());
-            movieDTO.setPosterUrl("/api/movies/" + movie.getMovieId() + "/poster");
+            movieDTO.setImageUrl(movie.getImageUrl());
 
             // Map showtimes from Movie entity to ShowtimeDTO
             List<ShowingDTO> showtimeDTOs = showtimes.stream().map(showtime -> {
