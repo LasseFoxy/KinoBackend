@@ -83,4 +83,9 @@ public class ShowingService {
         }
         return updatedAny;
     }
+
+    public List getShowingById(int id){
+        return showingRepository.findByShowingId(id);
+    }
+
 }

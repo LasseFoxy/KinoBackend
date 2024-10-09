@@ -55,4 +55,9 @@ public class ShowingController {
             return ResponseEntity.badRequest().body("Cannot delete showing with tickets or orders");
         }
     }
+
+    @GetMapping("/{showingId}")
+    public List getShowingById(@PathVariable int showingId){
+        return showingService.getShowingById(showingId);
+    }
 }

@@ -69,6 +69,7 @@ public class MovieService {
                 showingDTO.setTheaterName(showtime.getTheater().getName());
                 showingDTO.setShowingId(showtime.getShowingId());
                 showingDTO.setTheaterId(showtime.getTheater().getTheaterId());  // Include the theatreId
+                showingDTO.setStartTime(showtime.getStartTime());
                 showingDTO.setDate(showtime.getDate());  // Convert to appropriate format
                 return showingDTO;
             }).collect(Collectors.toList());
