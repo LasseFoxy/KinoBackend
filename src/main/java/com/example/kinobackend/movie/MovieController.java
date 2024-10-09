@@ -1,13 +1,11 @@
 package com.example.kinobackend.movie;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +25,9 @@ public class MovieController {
     }
 
     // Get movie by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Movie> findById(@PathVariable int id) {
-        Optional<Movie> movie = movieService.findMovieById(id);
+    @GetMapping("/{movieId}")
+    public ResponseEntity<Movie> findById(@PathVariable("movieId") int movieId) {
+        Optional<Movie> movie = movieService.findMovieById(movieId);
         if (movie.isPresent()) {
             return new ResponseEntity<>(movie.get(), HttpStatus.OK);
         } else {
@@ -49,16 +47,21 @@ public class MovieController {
     }
 
     // Update movie by ID
-    @PutMapping("/{id}")
-    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie updatedMovie) {
-        Optional<Movie> updated = movieService.updateMovie(id, updatedMovie);
-        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PutMapping("/{movieId}")
+    public ResponseEntity<Movie> update(@PathVariable("movieId") int movieId, @RequestBody Movie updatedMovie) {
+        try {
+            Movie updated = movieService.updateMovie(movieId, updatedMovie);
+            return ResponseEntity.ok(updated);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
+
     // Delete movie by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMovie(@PathVariable int id) {
-        if (movieService.deleteMovie(id)) {
+    @DeleteMapping("/{movieId}")
+    public ResponseEntity<String> deleteMovie(@PathVariable("movieId") int movieId) {
+        if (movieService.deleteMovie(movieId)) {
             return ResponseEntity.ok("Movie deleted");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
