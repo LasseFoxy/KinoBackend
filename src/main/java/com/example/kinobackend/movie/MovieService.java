@@ -36,7 +36,7 @@ public class MovieService {
                 .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + movieId + " not found"));
 
         updatedMovie.setMovieId(movieId);
-        return movieRepository.save(updatedMovie);
+        return movieRepository.save(existingMovie);
     }
 
 
