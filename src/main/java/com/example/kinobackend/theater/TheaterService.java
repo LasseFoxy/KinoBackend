@@ -76,21 +76,28 @@ public class TheaterService {
         }
     }
 
-    private void createShowingsForDate(Theater theater, LocalDate date) {
+    public void createShowingsForDate(Theater theater, LocalDate date) {
         List<LocalTime> showingTimes = List.of(
                 LocalTime.of(12, 0), // 12:00
                 LocalTime.of(16, 0), // 16:00
                 LocalTime.of(20, 0)  // 20:00
         );
 
-        for (LocalTime time : showingTimes) {
-            Showing newShowing = new Showing();
-            newShowing.setTheater(theater);
-            newShowing.setDate(date);
-            newShowing.setStartTime(time);
+        List<Showing> newShowings = new ArrayList<>();
 
-            // Gem den nye showing
-            showingRepository.save(newShowing);
+        for (LocalTime time : showingTimes) {
+            if (!showingRepository.existsByTheaterAndDateAndStartTime(theater, date, time)) {
+                Showing newShowing = new Showing();
+                newShowing.setTheater(theater);
+                newShowing.setDate(date);
+                newShowing.setStartTime(time);
+                newShowings.add(newShowing); // Tilføj til listen over nye showings
+            }
+        }
+
+        if (!newShowings.isEmpty()) {
+            showingRepository.saveAll(newShowings);
         }
     }
+
 }
