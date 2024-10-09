@@ -65,21 +65,22 @@ public class ShowingService {
 
     public boolean deleteShowingIfNoTickets(int movieId) {
         List<Showing> showings = showingRepository.findByMovieMovieId(movieId);
-        boolean deletedAny = false;
+        boolean updatedAny = false;
         for (Showing showing : showings) {
             List<Ticket> tickets = ticketRepository.findByShowing(showing);
             if (tickets.isEmpty()) {
                 List<Order> orders = orderRepository.findByShowing_ShowingId(showing.getShowingId());
                 if (orders.isEmpty()) {
-                    showingRepository.delete(showing);
-                    deletedAny = true;
+                    showing.setMovie(null);
+                    showingRepository.save(showing);
+                    updatedAny = true;
                 } else {
-                    System.out.println("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated orders.");
+                    System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated orders.");
                 }
             } else {
-                System.out.println("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated tickets.");
+                System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated tickets.");
             }
         }
-        return deletedAny;
+        return updatedAny;
     }
 }
