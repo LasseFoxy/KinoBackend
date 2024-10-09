@@ -1,5 +1,6 @@
 package com.example.kinobackend.showing;
 import com.example.kinobackend.movie.Movie;
+import com.example.kinobackend.theater.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,7 @@ public interface IShowingRepository extends JpaRepository<Showing, Integer> {
     List<Showing> findByMovie(Movie movie);
     List<Showing> findByShowingId(int showingId);
     List<Showing> findByMovieMovieId(int movieId);
+    boolean existsByTheaterAndDateAndStartTime(Theater theater, LocalDate date, LocalTime startTime);
 
 
     @Query("SELECT s FROM Showing s WHERE s.theater.theaterId = :theaterId " +
