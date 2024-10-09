@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -42,8 +43,11 @@ public class ShowingService {
     }
 
     public List<Showing> getAvailableShowingsForWeek(int theaterId, LocalDate startDate) {
-        LocalDate endDate = startDate.plusDays(6);
-        return showingRepository.findByTheaterTheaterIdAndDateBetweenAndMovieIsNull(theaterId, startDate, endDate);
+        LocalDate endDate = startDate.plusDays(6); // Beregn slutdatoen for ugen
+        LocalDate currentDate = LocalDate.now();   // Dagens dato
+        LocalTime currentTime = LocalTime.now();   // Nuværende tid
+
+        return showingRepository.findAvailableShowingsForWeek(theaterId, startDate, endDate, currentDate, currentTime);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
