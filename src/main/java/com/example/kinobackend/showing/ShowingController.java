@@ -1,5 +1,6 @@
 package com.example.kinobackend.showing;
 
+import com.example.kinobackend.ticket.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +45,19 @@ public class ShowingController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(availableShowings);
     }
-}
 
+    @DeleteMapping("/delete-by-movie/{movieId}")
+    public ResponseEntity<?> deleteShowingIfNoTickets(@PathVariable int movieId) {
+        boolean deleted = showingService.deleteShowingIfNoTickets(movieId);
+        if (deleted) {
+            return ResponseEntity.ok("Showing deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Cannot delete showing with tickets or orders");
+        }
+    }
+
+    @GetMapping("/{showingId}")
+    public List getShowingById(@PathVariable int showingId){
+        return showingService.getShowingById(showingId);
+    }
+}

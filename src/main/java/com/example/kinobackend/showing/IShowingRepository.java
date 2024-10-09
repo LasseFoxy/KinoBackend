@@ -11,6 +11,7 @@ import java.util.List;
 public interface IShowingRepository extends JpaRepository<Showing, Integer> {
     List<Showing> findByMovie(Movie movie);
     List<Showing> findByShowingId(int showingId);
+    List<Showing> findByMovieMovieId(int movieId);
 
     @Query("SELECT s FROM Showing s WHERE s.theater.theaterId = :theaterId " +
             "AND s.date BETWEEN :startDate AND :endDate " +
