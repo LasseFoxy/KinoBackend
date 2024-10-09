@@ -74,10 +74,10 @@ public class ShowingService {
                     showingRepository.delete(showing);
                     deletedAny = true;
                 } else {
-                    throw new IllegalArgumentException("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated orders.");
+                    System.out.println("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated orders.");
                 }
             } else {
-                throw new IllegalArgumentException("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated tickets.");
+                System.out.println("Cannot delete showing with ID " + showing.getShowingId() + " because it has associated tickets.");
             }
         }
         return deletedAny;

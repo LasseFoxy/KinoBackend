@@ -45,13 +45,14 @@ public class ShowingController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(availableShowings);
     }
+
     @DeleteMapping("/delete-by-movie/{movieId}")
     public ResponseEntity<?> deleteShowingIfNoTickets(@PathVariable int movieId) {
         boolean deleted = showingService.deleteShowingIfNoTickets(movieId);
         if (deleted) {
             return ResponseEntity.ok("Showing deleted successfully");
         } else {
-            return ResponseEntity.badRequest().body("Cannot delete showing with tickets");
+            return ResponseEntity.badRequest().body("Cannot delete showing with tickets or orders");
         }
     }
 }
