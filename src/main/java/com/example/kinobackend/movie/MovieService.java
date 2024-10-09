@@ -32,13 +32,21 @@ public class MovieService {
     }
 
     public Movie updateMovie(int movieId, Movie updatedMovie) {
-        Movie existingMovie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + movieId + " not found"));
+        Movie existingMovie = movieRepository.findById(movieId).orElse(null);
 
-        updatedMovie.setMovieId(movieId);
-        return movieRepository.save(updatedMovie);
+        if (existingMovie != null) {
+            existingMovie.setTitle(updatedMovie.getTitle());
+            existingMovie.setDescription(updatedMovie.getDescription());
+            existingMovie.setGenre(updatedMovie.getGenre());
+            existingMovie.setDuration(updatedMovie.getDuration());
+            existingMovie.setAgeLimit(updatedMovie.getAgeLimit());
+            existingMovie.setImageUrl(updatedMovie.getImageUrl());
+
+
+            return movieRepository.save(existingMovie);
     }
-
+            return null;
+    }
 
     public boolean deleteMovie(int movieId) {
         if (movieRepository.existsById(movieId)) {

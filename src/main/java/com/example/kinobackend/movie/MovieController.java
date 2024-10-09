@@ -49,11 +49,11 @@ public class MovieController {
     // Update movie by ID
     @PutMapping("/{movieId}")
     public ResponseEntity<Movie> update(@PathVariable("movieId") int movieId, @RequestBody Movie updatedMovie) {
-        try {
             Movie updated = movieService.updateMovie(movieId, updatedMovie);
+        if (updated != null) {
             return ResponseEntity.ok(updated);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -62,9 +62,9 @@ public class MovieController {
     @DeleteMapping("/{movieId}")
     public ResponseEntity<String> deleteMovie(@PathVariable("movieId") int movieId) {
         if (movieService.deleteMovie(movieId)) {
-            return ResponseEntity.ok("Movie deleted");
+            return new ResponseEntity<>("Movie deleted", HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
+            return new ResponseEntity<>("Movie not found", HttpStatus.NOT_FOUND);
         }
     }
 
