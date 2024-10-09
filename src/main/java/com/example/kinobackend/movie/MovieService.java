@@ -3,6 +3,7 @@ package com.example.kinobackend.movie;
 import com.example.kinobackend.showing.IShowingRepository;
 import com.example.kinobackend.showing.Showing;
 import com.example.kinobackend.showing.ShowingDTO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -22,28 +23,31 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public Optional<Movie> findMovieById(int id) {
-        return movieRepository.findById(id);
+    public Optional<Movie> findMovieById(int movieId) {
+        return movieRepository.findById(movieId);
     }
 
     public Movie createMovie(Movie movie){
         return movieRepository.save(movie);
     }
-    public Optional<Movie> updateMovie(int id, Movie updatedMovie) {
-        return movieRepository.findById(id).map(movie -> {
-            updatedMovie.setMovieId(id);
-            return movieRepository.save(updatedMovie);
-        });
+
+    public Movie updateMovie(int movieId, Movie updatedMovie) {
+        Movie existingMovie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + movieId + " not found"));
+
+        updatedMovie.setMovieId(movieId);
+        return movieRepository.save(updatedMovie);
     }
 
-    public boolean deleteMovie(int id) {
-        Optional<Movie> movie = movieRepository.findById(id);
-        if (movie.isPresent()) {
-            movieRepository.delete(movie.get());
+
+    public boolean deleteMovie(int movieId) {
+        if (movieRepository.existsById(movieId)) {
+            movieRepository.deleteById(movieId);
             return true;
         }
         return false;
     }
+
 
     public List<MovieDTO> getAllMovieDTOs() {
         List<Movie> movies = movieRepository.findAll();
