@@ -13,6 +13,7 @@ public interface IShowingRepository extends JpaRepository<Showing, Integer> {
     List<Showing> findByShowingId(int showingId);
     List<Showing> findByMovieMovieId(int movieId);
 
+
     @Query("SELECT s FROM Showing s WHERE s.theater.theaterId = :theaterId " +
             "AND s.date BETWEEN :startDate AND :endDate " +
             "AND (s.date > :currentDate OR (s.date = :currentDate AND s.startTime > :currentTime)) " +
