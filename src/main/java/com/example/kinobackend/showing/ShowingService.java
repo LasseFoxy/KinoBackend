@@ -2,8 +2,12 @@ package com.example.kinobackend.showing;
 
 import com.example.kinobackend.movie.IMovieRepository;
 import com.example.kinobackend.movie.Movie;
+import com.example.kinobackend.order.IOrderRepository;
+import com.example.kinobackend.order.Order;
 import com.example.kinobackend.theater.ITheaterRepository;
 import com.example.kinobackend.theater.Theater;
+import com.example.kinobackend.ticket.ITicketRepository;
+import com.example.kinobackend.ticket.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,12 @@ public class ShowingService {
 
     @Autowired
     private ITheaterRepository theaterRepository;
+
+    @Autowired
+    private ITicketRepository ticketRepository;
+
+    @Autowired
+    private IOrderRepository orderRepository;
 
     public void assignMovieToShowings(int movieId, int theaterId, List<Integer> showingIds) {
         Movie movie = movieRepository.findById(movieId)
@@ -51,5 +61,26 @@ public class ShowingService {
         public ResourceNotFoundException(String message) {
             super(message);
         }
+    }
+
+    public boolean deleteShowingIfNoTickets(int movieId) {
+        List<Showing> showings = showingRepository.findByMovieMovieId(movieId);
+        boolean updatedAny = false;
+        for (Showing showing : showings) {
+            List<Ticket> tickets = ticketRepository.findByShowing(showing);
+            if (tickets.isEmpty()) {
+                List<Order> orders = orderRepository.findByShowing_ShowingId(showing.getShowingId());
+                if (orders.isEmpty()) {
+                    showing.setMovie(null);
+                    showingRepository.save(showing);
+                    updatedAny = true;
+                } else {
+                    System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated orders.");
+                }
+            } else {
+                System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated tickets.");
+            }
+        }
+        return updatedAny;
     }
 }
