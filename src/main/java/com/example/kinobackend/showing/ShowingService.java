@@ -11,6 +11,7 @@ import com.example.kinobackend.ticket.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDate;
@@ -71,18 +72,14 @@ public class ShowingService {
         List<Showing> showings = showingRepository.findByMovieMovieId(movieId);
         boolean updatedAny = false;
         for (Showing showing : showings) {
-            List<Ticket> tickets = ticketRepository.findByShowing(showing);
-            if (tickets.isEmpty()) {
-                List<Order> orders = orderRepository.findByShowing_ShowingId(showing.getShowingId());
-                if (orders.isEmpty()) {
-                    showing.setMovie(null);
-                    showingRepository.save(showing);
-                    updatedAny = true;
-                } else {
-                    System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated orders.");
-                }
+            List<Order> orders = orderRepository.findByShowing_ShowingId(showing.getShowingId());
+            if (orders.isEmpty()) {
+                showing.setMovie(null);
+                showingRepository.save(showing);
+                updatedAny = true;
+                System.out.println("Movie removed from showing with ID " + showing.getShowingId());
             } else {
-                System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated tickets.");
+                System.out.println("Cannot remove movie from showing with ID " + showing.getShowingId() + " because it has associated orders.");
             }
         }
         return updatedAny;
